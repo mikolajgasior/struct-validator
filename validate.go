@@ -117,48 +117,83 @@ func ValidateField(structField reflect.StructField, fieldValue reflect.Value, ta
 						violations += FailEmail
 					}
 
-				case "lenmin", "lenmax":
+				case "len":
 					if kind != reflect.String {
 						violations += FailType
 						break
 					}
-					minMax, _ := strconv.Atoi(arg) // arg is guaranteed to be numeric by convention
-					strLen := len(concrete.String())
-					if name == "lenmin" && strLen < minMax {
-						violations += FailLenMin
+					minMax := strings.Split(arg, ",")
+					if minMax[0] != "" {
+						min, err := strconv.Atoi(minMax[0])
+						if err == nil {
+							if len(concrete.String()) < min {
+								violations += FailLenMin
+							}
+						}
 					}
-					if name == "lenmax" && strLen > minMax {
-						violations += FailLenMax
+					if len(minMax) > 1 && minMax[1] != "" {
+						max, err := strconv.Atoi(minMax[1])
+						if err == nil {
+							if len(concrete.String()) > max {
+								violations += FailLenMax
+							}
+						}
 					}
-				case "valmin", "valmax":
+				case "val":
 					// First, make sure we are dealing with a numeric kind.
+					minMax := strings.Split(arg, ",")
+
 					switch kind {
 					case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-						limit, _ := strconv.ParseInt(arg, 10, 64)
-						val := concrete.Int()
-						if name == "valmin" && val < limit {
-							violations += FailValMin
+						if minMax[0] != "" {
+							min, err := strconv.ParseInt(minMax[0], 10, 64)
+							if err == nil {
+								if concrete.Int() < min {
+									violations += FailValMin
+								}
+							}
 						}
-						if name == "valmax" && val > limit {
-							violations += FailValMax
+						if len(minMax) > 1 && minMax[1] != "" {
+							max, err := strconv.ParseInt(minMax[1], 10, 64)
+							if err == nil {
+								if concrete.Int() > max {
+									violations += FailValMax
+								}
+							}
 						}
 					case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-						limit, _ := strconv.ParseUint(arg, 10, 64)
-						val := concrete.Uint()
-						if name == "valmin" && val < limit {
-							violations += FailValMin
+						if minMax[0] != "" {
+							min, err := strconv.ParseUint(minMax[0], 10, 64)
+							if err == nil {
+								if concrete.Uint() < min {
+									violations += FailValMin
+								}
+							}
 						}
-						if name == "valmax" && val > limit {
-							violations += FailValMax
+						if len(minMax) > 1 && minMax[1] != "" {
+							max, err := strconv.ParseUint(minMax[1], 10, 64)
+							if err == nil {
+								if concrete.Uint() > max {
+									violations += FailValMax
+								}
+							}
 						}
 					case reflect.Float32, reflect.Float64:
-						limit, _ := strconv.ParseFloat(arg, 64)
-						val := concrete.Float()
-						if name == "valmin" && val < limit {
-							violations += FailValMin
+						if minMax[0] != "" {
+							min, err := strconv.ParseFloat(minMax[0], 64)
+							if err == nil {
+								if concrete.Float() < min {
+									violations += FailValMin
+								}
+							}
 						}
-						if name == "valmax" && val > limit {
-							violations += FailValMax
+						if len(minMax) > 1 && minMax[1] != "" {
+							max, err := strconv.ParseFloat(minMax[1], 64)
+							if err == nil {
+								if concrete.Float() > max {
+									violations += FailValMax
+								}
+							}
 						}
 					default:
 						// Not a numeric type → record a mismatch.

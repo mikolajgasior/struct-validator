@@ -1,3 +1,3 @@
-module github.com/keenbytes/struct-validator
+module github.com/mikolajgasior/struct-validator
 
 go 1.24.5

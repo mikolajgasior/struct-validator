@@ -6,42 +6,42 @@ import (
 )
 
 type Test1 struct {
-	FirstName     string `validation:"lenmin:5 lenmax:25"`
-	LastName      string `validation:"lenmin:2 lenmax:50"`
-	Age           int    `validation:"valmin:18 valmax:150"`
-	Price         int    `validation:"valmin:0 valmax:9999"`
+	FirstName     string `validation:"len:5,25"`
+	LastName      string `validation:"len:2,50"`
+	Age           int    `validation:"val:18,150"`
+	Price         int    `validation:"val:0,9999"`
 	PostCode      string `validation:"" validation_regexp:"^[0-9][0-9]-[0-9][0-9][0-9]$"`
 	Email         string `validation:"email"`
-	BelowZero     int    `validation:"valmin:-6 valmax:-2"`
-	DiscountPrice int    `validation:"valmin:0 valmax:8000"`
+	BelowZero     int    `validation:"val:-6,-2"`
+	DiscountPrice int    `validation:"val:0,8000"`
 	Country       string `validation_regexp:"^[A-Z][A-Z]$"`
-	County        string `validation:"lenmax:40"`
+	County        string `validation:"len:,40"`
 }
 
 type Test2 struct {
-	FirstName     string `mytag:"req lenmin:5 lenmax:25"`
-	LastName      string `mytag:"req lenmin:2 lenmax:50"`
-	Age           int    `mytag:"req valmin:18 valmax:150"`
-	Price         int    `mytag:"req valmin:0 valmax:9999"`
+	FirstName     string `mytag:"req len:5,25"`
+	LastName      string `mytag:"req len:2,50"`
+	Age           int    `mytag:"req val:18,150"`
+	Price         int    `mytag:"req val:0,9999"`
 	PostCode      string `mytag:"req" mytag_regexp:"^[0-9][0-9]-[0-9][0-9][0-9]$"`
 	Email         string `mytag:"req email"`
-	BelowZero     int    `mytag:"valmin:-6 valmax:-2"`
-	DiscountPrice int    `mytag:"valmin:0 valmax:8000"`
+	BelowZero     int    `mytag:"val:-6,-2"`
+	DiscountPrice int    `mytag:"val:0,8000"`
 	Country       string `mytag_regexp:"^[A-Z][A-Z]$"`
-	County        string `mytag:"lenmax:40"`
+	County        string `mytag:"len:,40"`
 }
 
 type Test3 struct {
-	FirstName     *string `mytag:"req lenmin:5 lenmax:25"`
-	LastName      *string `mytag:"lenmin:2 lenmax:50"`
-	Age           *int    `mytag:"req valmin:18 valmax:150"`
-	Price         *int    `mytag:"valmin:0 valmax:9999"`
+	FirstName     *string `mytag:"req len:5,25"`
+	LastName      *string `mytag:"len:2,50"`
+	Age           *int    `mytag:"req val:18,150"`
+	Price         *int    `mytag:"val:0,9999"`
 	PostCode      *string `mytag:"req" mytag_regexp:"^[0-9][0-9]-[0-9][0-9][0-9]$"`
 	Email         *string `mytag:"req email"`
-	BelowZero     *int    `mytag:"valmin:-6 valmax:-2"`
-	DiscountPrice *int    `mytag:"valmin:0 valmax:8000"`
+	BelowZero     *int    `mytag:"val:-6,-2"`
+	DiscountPrice *int    `mytag:"val:0,8000"`
 	Country       *string `mytag:"^[A-Z][A-Z]$"`
-	County        *string `mytag:"lenmax:40"`
+	County        *string `mytag:"len:40"`
 }
 
 func TestWithDefaultValues(t *testing.T) {
