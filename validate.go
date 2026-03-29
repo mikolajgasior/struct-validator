@@ -9,7 +9,7 @@ import (
 )
 
 // Validate takes a struct and validates values of its fields based on their tags.
-func Validate(obj interface{}, options *ValidateOptions) (bool, map[string]int, error) {
+func Validate(obj interface{}, options *ValidateOptions) (bool, map[string]uint64, error) {
 	if options == nil {
 		options = &ValidateOptions{} // use defaults
 	}
@@ -37,7 +37,7 @@ func Validate(obj interface{}, options *ValidateOptions) (bool, map[string]int, 
 	typ := val.Type()
 
 	numField := typ.NumField()
-	fieldViolations := make(map[string]int, numField)
+	fieldViolations := make(map[string]uint64, numField)
 	overallOk := true
 
 	for i := 0; i < numField; i++ {
@@ -78,8 +78,8 @@ func Validate(obj interface{}, options *ValidateOptions) (bool, map[string]int, 
 }
 
 // ValidateField takes a reflected struct field, its value and a tagname and validates the values against the requirements in the tag.
-func ValidateField(structField reflect.StructField, fieldValue reflect.Value, tagName string) (bool, int) {
-	violations := 0
+func ValidateField(structField reflect.StructField, fieldValue reflect.Value, tagName string) (bool, uint64) {
+	var violations uint64 = 0
 
 	tag := structField.Tag.Get(tagName)
 

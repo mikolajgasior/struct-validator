@@ -47,7 +47,7 @@ type Test3 struct {
 func TestWithDefaultValues(t *testing.T) {
 	s := Test1{}
 
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"FirstName": FailLenMin,
 		"LastName":  FailLenMin,
 		"Age":       FailValMin,
@@ -79,7 +79,7 @@ func TestWithInvalidValues(t *testing.T) {
 		County:        "",
 	}
 
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"FirstName":     FailLenMax,
 		"LastName":      FailLenMin,
 		"Age":           FailValMin,
@@ -112,7 +112,7 @@ func TestWithValidValues(t *testing.T) {
 		County:        "Enfield",
 	}
 
-	expectedViolations := map[string]int{}
+	expectedViolations := map[string]uint64{}
 
 	ok, violations, _ := Validate(s, &ValidateOptions{})
 	if !ok {
@@ -136,7 +136,7 @@ func TestWithInvalidValuesAndFieldRestriction(t *testing.T) {
 		County:        "",
 	}
 
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"FirstName": FailLenMax,
 		"LastName":  FailLenMin,
 	}
@@ -168,7 +168,7 @@ func TestWithInvalidValuesAndOverwrittenTagName(t *testing.T) {
 		Country:       "Tokelau",
 		County:        "",
 	}
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"FirstName":     FailLenMax,
 		"LastName":      FailLenMin,
 		"Age":           FailValMin,
@@ -192,7 +192,7 @@ func TestWithInvalidValuesAndOverwrittenTagName(t *testing.T) {
 func TestWithAllInvalidValuesAndPointerFields(t *testing.T) {
 	s := Test3{}
 
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"FirstName": FailReq,
 		"Age":       FailReq,
 		"PostCode":  FailReq,
@@ -220,7 +220,7 @@ func TestWithInvalidValuesAndPointerFields(t *testing.T) {
 		PostCode:  &postCode,
 	}
 
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"FirstName": FailLenMin,
 		"Age":       FailValMin,
 		"PostCode":  FailRegExp,
@@ -245,7 +245,7 @@ func TestWithOverwriteValues(t *testing.T) {
 		Email:     "email",
 	}
 
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"Age":      FailValMax,
 		"PostCode": FailRegExp,
 		"Email":    FailType,
@@ -278,7 +278,7 @@ func TestWithOverwriteValuesAndPointerFields(t *testing.T) {
 
 	s := Test3{}
 
-	expectedViolations := map[string]int{
+	expectedViolations := map[string]uint64{
 		"Age":      FailValMax,
 		"PostCode": FailRegExp,
 		"Email":    FailType,
@@ -304,7 +304,7 @@ func TestWithOverwriteValuesAndPointerFields(t *testing.T) {
 	compareViolations(violations, expectedViolations, t)
 }
 
-func compareViolations(violations map[string]int, expectedViolations map[string]int, t *testing.T) {
+func compareViolations(violations map[string]uint64, expectedViolations map[string]uint64, t *testing.T) {
 	if len(violations) != len(expectedViolations) {
 		log.Printf("Violations:\n")
 		for k, v := range violations {
